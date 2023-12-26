@@ -5,30 +5,34 @@ int main() {
     int n;
     cin >> n;
 
-    vector<int> sumOfMarks;
+    vector<pair<int, int>> sumAndId;
 
-    for (int j = 0; j < n; j++) {
-        vector<int> marks;
+    for (int i = 1; i <= n; i++) {
+        int a, b, c, d;
+        cin >> a >> b >> c >> d;
 
-        for (int i = 1; i <= 5; i++) {
-            int mark;
-            cin >> mark;
-            marks.push_back(mark);
-        }
+        // Calculate the sum of scores for each student
+        int sum = a + b + c + d;
 
-        int sum = accumulate(marks.begin(), marks.end(), 0);
-        sumOfMarks.push_back(sum);
-        cout << endl;
+        // Store the pair (sum, student id) in the vector
+        sumAndId.push_back({sum, i});
     }
 
-    int maxelement = *max_element(sumOfMarks.begin(), sumOfMarks.end());
+    // Sorting the vector of pairs in descending order based on the sum
+    sort(sumAndId.rbegin(), sumAndId.rend());
 
-    for (int i = 0; i < sumOfMarks.size(); i++) {
-        if (sumOfMarks[i] == maxelement) {
-            cout << i << " ";
+    // Finding the rank of Thomas Smith
+    int rank = 1;
+    for (int k = 1; k < n; k++) {
+        if (sumAndId[k].first != sumAndId[k - 1].first) {
+            rank++;
+        } else if (sumAndId[k].second < sumAndId[k - 1].second) {
+            rank++;
         }
     }
-    cout << endl;
+
+    // Outputting the rank of Thomas Smith
+    cout << rank << endl;
 
     return 0;
 }
